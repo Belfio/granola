@@ -1,9 +1,11 @@
-import { StatusBar } from "expo-status-bar";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
+import ButtonRecord from "../components/ButtonRecord";
+import colours from "../constants/colours";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <>
       <View style={styles.header}>
         <Text style={styles.title}>Coming up</Text>
         <View style={styles.headerBody}>
@@ -20,36 +22,27 @@ export default function App() {
           </View>
         </View>
       </View>
-      <StatusBar style="auto" />
-      <Pressable style={styles.buttonStart}>O</Pressable>
-    </View>
+      <View style={styles.linkRecord}>
+        <Link href="/record" asChild>
+          <ButtonRecord />
+        </Link>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    fontFamily: "Helvetica Neue",
-    color: "#18181B",
-    width: "100%",
-    height: "100%",
-    paddingBottom: 20,
-    paddingTop: 20,
-    fontWeight: "bold",
-  },
   textGrey: {
     color: "#6E7A91",
   },
   header: {
     backgroundColor: "#eeeff1",
-    alignItems: "left",
-    justifyContent: "left",
+    justifyContent: "flex-start",
     color: "#18181B",
     width: "100%",
     height: 184,
     padding: 20,
+    paddingTop: 80,
   },
   headerBody: {
     alignItems: "center",
@@ -58,11 +51,11 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: "#fff",
-    alignItems: "left",
-    justifyContent: "left",
+    justifyContent: "flex-start",
     color: "#18181B",
     width: "100%",
     padding: 20,
+    flex: 1,
   },
   buttonStart: {
     position: "absolute",
@@ -85,6 +78,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 12,
   },
+  linkRecord: {
+    position: "absolute",
+    bottom: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 4,
-    backgroundColor: "#FFC700",
+    backgroundColor: colours.lightprimary,
   },
 });
