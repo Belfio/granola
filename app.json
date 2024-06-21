@@ -14,7 +14,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Granola"
+      "bundleIdentifier": "com.anonymous.Granola",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "To transcribe the meeting into text",
+        "NSMicrophoneUsageDescription": "To transcribe the meeting into text",
+        "UIBackgroundModes": ["audio"]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +32,13 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["Camera", "SpeechRecognition"]
+        }
+      ]
     ]
   }
 }

@@ -1,9 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import ButtonRecord from "../../components/ButtonRecord";
 import TextBubble from "../../components/TextBubble";
 import Separator from "../../components/Separator";
 import colours from "../../constants/colours";
+import useAudioRecord from "../../hooks/recording";
+import { useEffect } from "react";
 
 const convo = [
   {
@@ -88,13 +90,28 @@ const convo = [
   },
 ];
 
+// useCallback - what the fuxk is it
+
+// tuple, enum, dict in javascript
 export default function App() {
+  const { recording, startRecording, stopRecording, playSound } =
+    useAudioRecord();
+
+  useEffect(() => {
+    startRecording();
+  }, []);
+
   return (
     <>
       <View style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Transcript</Text>
           <Separator />
+          <Button
+            title={recording ? "Stop Recording" : "Start Recording"}
+            onPress={recording ? stopRecording : startRecording}
+          />
+          <Button title={"Suona"} onPress={playSound} />
           <View style={styles.convo}>
             {convo.map((item) => (
               <TextBubble text={item.text} key={item.id} />
@@ -102,8 +119,9 @@ export default function App() {
           </View>
         </ScrollView>
       </View>
+
       <View style={styles.linkRecord}>
-        <Link href="/" asChild push>
+        <Link href="/" asChild>
           <ButtonRecord active />
         </Link>
       </View>

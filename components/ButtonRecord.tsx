@@ -6,16 +6,21 @@ import {
   View,
 } from "react-native";
 import colours from "../constants/colours";
+import { forwardRef } from "react";
 
-export default function ButtonRecord({
-  onPress,
-  active,
-}: {
-  active?: boolean;
-  onPress?: (event: GestureResponderEvent) => void;
-}) {
-  return (
-    <Pressable style={styles.buttonStart} onPress={onPress}>
+const ButtonRecord = forwardRef(
+  (
+    {
+      active,
+      onPress,
+    }: { active?: boolean; onPress?: (e: GestureResponderEvent) => void },
+    ref
+  ) => (
+    <Pressable
+      ref={ref as React.RefObject<View>}
+      style={styles.buttonStart}
+      onPress={onPress}
+    >
       {active ? (
         <>
           <View
@@ -66,8 +71,10 @@ export default function ButtonRecord({
         </>
       )}
     </Pressable>
-  );
-}
+  )
+);
+
+export default ButtonRecord;
 
 const styles = StyleSheet.create({
   buttonStart: {

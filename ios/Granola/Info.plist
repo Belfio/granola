@@ -73,5 +73,9 @@
     <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+      <key>NSSpeechRecognitionUsageDescription</key>
+  <string>To transcribe the meeting into text</string>
+    <key>NSMicrophoneUsageDescription</key>
+  <string>To get access to the audio of the meeting</string>
   </dict>
 </plist>
