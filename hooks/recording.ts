@@ -75,5 +75,11 @@ export default function useAudioRecord() {
     }
   }
 
-  return { startRecording, stopRecording, playSound, recording };
+  async function unloadSound() {
+    if (!sound) return;
+    await sound.unloadAsync();
+    setSound(null);
+  }
+
+  return { startRecording, stopRecording, playSound, unloadSound, recording };
 }

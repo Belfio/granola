@@ -4,6 +4,12 @@ import ButtonRecord from "../components/ButtonRecord";
 import colours from "../constants/colours";
 
 export default function App() {
+  // check in localstorage if this is logged in, how does it work on expo?
+  // checked in localstorage if the theme is dark or light
+  // allow to change dark or light theme with context
+  // fetch events from a fake db call
+  // set a complex state using the reducer
+
   return (
     <>
       <View style={styles.header}>

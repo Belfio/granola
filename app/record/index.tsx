@@ -90,15 +90,15 @@ const convo = [
   },
 ];
 
-// useCallback - what the fuxk is it
-
-// tuple, enum, dict in javascript
 export default function App() {
   const { recording, startRecording, stopRecording, playSound } =
     useAudioRecord();
 
   useEffect(() => {
     startRecording();
+    return () => {
+      stopRecording();
+    };
   }, []);
 
   return (
