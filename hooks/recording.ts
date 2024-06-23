@@ -1,6 +1,8 @@
 import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
 
+const config = { CLOUD_FUNCTION_URL: "CLOUD_FUNCTION_URL" };
+
 export default function useAudioRecord() {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -36,14 +38,10 @@ export default function useAudioRecord() {
     }
   }
   async function playSound() {
-    console.log("Loading Sound");
     if (!audioUri) return;
     await loadSound(audioUri);
     if (!sound) return;
-
-    console.log("Playing Sound");
     await sound.playAsync();
-    console.log("Finished playing sound");
   }
 
   async function stopRecording() {
@@ -79,6 +77,21 @@ export default function useAudioRecord() {
     if (!sound) return;
     await sound.unloadAsync();
     setSound(null);
+  }
+
+  // create a function that takes the sound object and sends it to this API config.CLOUD_FUNCTION_URL,
+
+  async function sendSound(sound: Audio.Sound) {
+    const uri = await sound.getStatusAsync();
+    const response = await fetch(config.CLOUD_FUNCTION_URL, {
+      method: "POST",
+      body: JSON.stringify({ uri }),
+    });
+    if (response.ok) {
+      console.log("Sound sent successfully");
+    } else {
+      console.error("Failed to send sound");
+    }
   }
 
   return { startRecording, stopRecording, playSound, unloadSound, recording };
