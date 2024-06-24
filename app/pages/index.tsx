@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import ButtonRecord from "../components/ButtonRecord";
-import colours from "../constants/colours";
+import colours from "./constants/colours";
 
 export default function App() {
   // check in localstorage if this is logged in, how does it work on expo?

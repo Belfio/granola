@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import colours from "../constants/colours";
+import colours from "../app/constants/colours";
 import { forwardRef } from "react";
 
 const ButtonRecord = forwardRef(
