@@ -1,10 +1,10 @@
 import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
-import ButtonRecord from "../../components/ButtonRecord";
-import TextBubble from "../../components/TextBubble";
-import Separator from "../../components/Separator";
-import colours from "../../constants/colours";
-import useAudioRecord from "../../hooks/recording";
+import ButtonRecord from "../components/ButtonRecord";
+import TextBubble from "../components/TextBubble";
+import Separator from "../components/Separator";
+import colours from "../constants/colours";
+import useAudioRecord from "../hooks/recording";
 import { useEffect } from "react";
 
 const convo = [

@@ -1,7 +1,9 @@
 import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
-import ButtonRecord from "../components/ButtonRecord";
+import ButtonRecord from "./components/ButtonRecord";
 import colours from "./constants/colours";
+import HomeHeader from "./components/HomeHeader";
+import HomePastEvents from "./components/HomePastEvents";
 
 export default function App() {
   // check in localstorage if this is logged in, how does it work on expo?
@@ -12,22 +14,8 @@ export default function App() {
 
   return (
     <>
-      <View style={styles.header}>
-        <Text style={styles.title}>Coming up</Text>
-        <View style={styles.headerBody}>
-          <Text style={styles.textGrey}>No upcoming events</Text>
-        </View>
-      </View>
-      <View style={styles.body}>
-        <Text style={styles.title}>Monday 10 June</Text>
-        <View style={styles.event}>
-          <View style={styles.eventIcon}></View>
-          <View>
-            <Text>Meeting with the team</Text>
-            <Text style={styles.textGrey}>10:00 AM</Text>
-          </View>
-        </View>
-      </View>
+      <HomeHeader />
+      <HomePastEvents />
       <View style={styles.linkRecord}>
         <Link href="/record" asChild>
           <ButtonRecord />

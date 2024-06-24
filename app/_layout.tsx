@@ -1,5 +1,5 @@
 import { Slot } from "expo-router";
-import Footer from "../components/Footer";
+import Footer from "./components/Footer";
 import { StyleSheet, View } from "react-native";
 
 export default function HomeLayout() {

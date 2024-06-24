@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import colours from "../app/constants/colours";
+import colours from "../constants/colours";
 
 export default function Separator() {
   return <View style={styles.sep} />;
