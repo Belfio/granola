@@ -59,7 +59,6 @@ The user can amend or name and save the [email] template
 
 
 
-
 ## Architecture
 FE app
 FE admin dashboard
