@@ -16,7 +16,7 @@ The service is made of the following parts:
 
 ## UX
 
-![General UX Diagram](images/architecture_diagram.png "General UX")
+![General UX Diagram](./readmeAssets/arch_diag.png "General UX")
 
 ### Meeting UX
 - The user receives a notification, their calendar indicates a meeting is starting in 5 minutes.
@@ -45,7 +45,7 @@ The service is made of the following parts:
 - Next to the meeting details the user can see there is a button that implies "there are things to complete/review/available for you"
 - When the user clicks on it can see the specific meeting screen where on the right there is a column with the transcript and the recorded audio. On the left a column with a list of actions available to the user. The actions are a list of automatically created actions from AI and a request for custom actions.
 
-![Meeting page]("./readmeAssets/meetingSec" "Meeting page")
+![Meeting page](./readmeAssets/meetingSec.png "Meeting page")
 
 - The first automatic action is to send yourself an email, the dashboard displays the draft email that the user can modify and send.
 
@@ -67,7 +67,7 @@ The service is made of the following parts:
 
 ## Architecture
 
-![Architecture Diagram](images/architecture_diagram.png "Architecture Diagram")
+![Architecture Diagram](./readmeAssets/arch_diag.png  "Architecture Diagram")
 
 - FE app
 - FE admin dashboard
@@ -87,8 +87,9 @@ The service is made of the following parts:
 
 
 ## MVP
-![App FE](URL_to_image "App FE")
-- FE app that records audio and streams it to the BE.
+![App FE](./readmeAssets/app.png "App FE")
+- FE app that records audio and streams it to the BE. An iOS app with a login system and way to record audio, stream it to the BE, and receive a stream of text (Transcript and Contectual data types).
+- BE auth system.
 - BE receives the BE, sends it to ElevenLabs to get a stream of text.
 - BE to send the text stream to the FE app.
 - BE to pick direct orders to check a Scraping API or a database (i.e. if the transcript contains the word "abc find me the last investments of Elon Musk").
