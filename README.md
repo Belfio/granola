@@ -16,7 +16,7 @@ The service is made of the following parts:
 
 ## UX
 
-![General UX Diagram](./readmeAssets/arch_diag.png "General UX")
+![General UX Diagram](./readmeAssets/ux.png "General UX")
 
 ### Meeting UX
 - The user receives a notification, their calendar indicates a meeting is starting in 5 minutes.
