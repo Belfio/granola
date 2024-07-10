@@ -4,7 +4,6 @@ import ButtonRecord from "./components/ButtonRecord";
 import colours from "./constants/colours";
 import HomeHeader from "./components/HomeHeader";
 import HomePastEvents from "./components/HomePastEvents";
-
 export default function App() {
   // check in localstorage if this is logged in, how does it work on expo?
   // checked in localstorage if the theme is dark or light

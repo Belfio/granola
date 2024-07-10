@@ -1,5 +1,6 @@
 import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
+import { Platform } from 'react-native';
 
 const config = { CLOUD_FUNCTION_URL: "CLOUD_FUNCTION_URL" };
 
@@ -27,12 +28,20 @@ export default function useAudioRecord() {
         playsInSilentModeIOS: true,
       });
 
+
       console.log("Starting recording..");
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
-      setRecording(recording);
+
+          const { recording } = await Audio.Recording.createAsync(
+            Audio.RecordingOptionsPresets.HIGH_QUALITY
+          );
+          setRecording(recording);
+      const uri = recording.getURI();
+
       console.log("Recording started");
+      console.log("Recording uri", uri);
+        
+      
+
     } catch (err) {
       console.error("Failed to start recording", err);
     }
@@ -59,6 +68,7 @@ export default function useAudioRecord() {
   }
 
   async function loadSound(uri: string) {
+    console.log("Loading sound..", uri)
     try {
       const { sound } = await Audio.Sound.createAsync(
         { uri }, // Directly passing an object with uri
