@@ -47,6 +47,7 @@ The service is made of the following parts:
 
 ![Meeting page](./readmeAssets/meetingSec.png "Meeting page")
 
+
 - The first automatic action is to send yourself an email, the dashboard displays the draft email that the user can modify and send.
 
 - The user going back to the dashboard can see the meetings in the calendar popping up in the section called "Next meetings".
