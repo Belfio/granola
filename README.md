@@ -64,8 +64,6 @@ The service is made of the following parts:
 - The user can amend or name and save the [email] template
 
 
-
-
 ## Architecture
 
 ![Architecture Diagram](./readmeAssets/arch_diag.png  "Architecture Diagram")
