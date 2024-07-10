@@ -13,24 +13,32 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.Granola",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "To transcribe the meeting into text",
+        "NSMicrophoneUsageDescription": "To transcribe the meeting into text",
+        "UIBackgroundModes": ["audio"]
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
+      "expo-router",
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["Camera", "SpeechRecognition"]
+        }
+      ]
+    ]
   }
 }
