@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import colours from "../constants/colours";
 export type EventType = {
   date: string;
@@ -8,20 +8,29 @@ export type EventType = {
 };
 export default function Event({
   event,
+  small,
+  onPress,
 }: {
   event: EventType;
+  small: boolean;
+  onPress?: (id: number) => void;
 }): React.ReactNode {
   return (
-    <View>
-      <Text style={styles.title}>{event.date}</Text>
-      <View style={styles.event}>
-        <View style={styles.eventIcon}></View>
-        <View>
-          <Text>{event.name}</Text>
-          <Text style={styles.textGrey}>{event.time}</Text>
+    <Pressable onPress={() => onPress && onPress(event.id)}>
+      <View>
+        {!small && <Text style={styles.title}>{event.date}</Text>}
+        <View style={styles.event}>
+          <View style={styles.eventIcon}></View>
+          <View>
+            <Text>{event.name}</Text>
+            <Text style={styles.textGrey}>
+              {small && `${event.date} @`}
+              {event.time}
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

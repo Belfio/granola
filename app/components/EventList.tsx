@@ -1,18 +1,35 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Event, { EventType } from "./Event";
 
-export default function EventList({ events }: { events: EventType[] | null }) {
+export default function EventList({
+  events,
+  cancelEvent,
+  eventsNumber,
+}: {
+  events: EventType[] | null;
+  cancelEvent: (id: number) => void;
+  eventsNumber: number;
+}) {
   if (!events) {
     throw new Promise<void>((resolve) => setTimeout(() => resolve(), 2000)); // Simulate loading delay
   }
   return (
-    <View>
+    <ScrollView style={{ width: "100%" }}>
       {events.length > 0 ? (
-        events.map((event) => <Event key={event.id} event={event} />)
+        events.map((event) => (
+          <Pressable key={event.id}>
+            <Event
+              key={event.id}
+              event={event}
+              small={true}
+              onPress={cancelEvent}
+            />
+          </Pressable>
+        ))
       ) : (
         <Text style={styles.textGrey}>No upcoming events</Text>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
