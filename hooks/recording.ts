@@ -8,6 +8,7 @@ export default function useAudioRecord() {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [sound, setSound] = useState<Audio.Sound | null>();
   const [audioUri, setAudioUri] = useState<string | null>(null);
+  const [audioName, setAudioName] = useState<string | null>(null);
   useEffect(() => {
     return sound
       ? () => {
@@ -94,5 +95,13 @@ export default function useAudioRecord() {
     }
   }
 
-  return { startRecording, stopRecording, playSound, unloadSound, recording };
+  return {
+    startRecording,
+    stopRecording,
+    playSound,
+    unloadSound,
+    recording,
+    audioName,
+    setAudioName,
+  };
 }
