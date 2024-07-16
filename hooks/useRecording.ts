@@ -1,6 +1,7 @@
 import { Audio } from "expo-av";
 import { useEffect, useState } from "react";
-import { Platform } from 'react-native';
+import { Platform } from "react-native";
+import useUpload from "./useUpload";
 
 const config = { CLOUD_FUNCTION_URL: "CLOUD_FUNCTION_URL" };
 
@@ -9,7 +10,8 @@ export default function useAudioRecord() {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [sound, setSound] = useState<Audio.Sound | null>();
   const [audioUri, setAudioUri] = useState<string | null>(null);
-  const [audioName, setAudioName] = useState<string | null>(null);
+  const [audioName, setAudioName] = useState<string>("untitled");
+  const { uploadAudioToS3 } = useUpload();
   useEffect(() => {
     return sound
       ? () => {
@@ -18,6 +20,7 @@ export default function useAudioRecord() {
         }
       : undefined;
   }, [sound]);
+
   async function startRecording() {
     try {
       if (permissionResponse?.status !== "granted") {
@@ -27,26 +30,25 @@ export default function useAudioRecord() {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
       });
-
 
       console.log("Starting recording..");
 
-          const { recording } = await Audio.Recording.createAsync(
-            Audio.RecordingOptionsPresets.HIGH_QUALITY
-          );
-          setRecording(recording);
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
       const uri = recording.getURI();
 
+      setAudioUri(uri);
       console.log("Recording started");
       console.log("Recording uri", uri);
-        
-      
-
     } catch (err) {
       console.error("Failed to start recording", err);
     }
   }
+
   async function playSound() {
     if (!audioUri) return;
     await loadSound(audioUri);
@@ -63,13 +65,14 @@ export default function useAudioRecord() {
       allowsRecordingIOS: false,
     });
     const uri = recording.getURI();
+    if (uri) uploadAudioToS3(uri, "prova");
     console.log("Recording stopped and stored at", uri);
     if (!uri) return;
     setAudioUri(uri);
   }
 
   async function loadSound(uri: string) {
-    console.log("Loading sound..", uri)
+    console.log("Loading sound..", uri);
     try {
       const { sound } = await Audio.Sound.createAsync(
         { uri }, // Directly passing an object with uri
@@ -113,5 +116,6 @@ export default function useAudioRecord() {
     recording,
     audioName,
     setAudioName,
+    audioUri,
   };
 }

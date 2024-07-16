@@ -4,8 +4,8 @@ import ButtonRecord from "@/components/ButtonRecord";
 import TextBubble from "@/components/TextBubble";
 import Separator from "@/components/Separator";
 import colours from "@/constants/colours";
-import useAudioRecord from "@/hooks/recording";
-import { useEffect } from "react";
+import useAudioRecord from "@/hooks/useRecording";
+import useUpload from "@/hooks/useUpload";
 
 const convo = [
   {
@@ -91,9 +91,16 @@ const convo = [
 ];
 
 export default function App() {
-  const { recording, startRecording, stopRecording, playSound } =
-    useAudioRecord();
-
+  const {
+    recording,
+    startRecording,
+    stopRecording,
+    playSound,
+    audioName,
+    setAudioName,
+    audioUri,
+  } = useAudioRecord();
+  const { uploadAudioToS3 } = useUpload();
   // useEffect(() => {
   //   startRecording();
   //   return () => {
@@ -110,6 +117,9 @@ export default function App() {
       <View style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Transcript</Text>
+          {/* <Text style={styles.title}>{audioName}</Text> */}
+          <Text style={styles.title}>{audioUri}</Text>
+
           <Separator />
           <Button
             title={recording ? "Stop Recording" : "Start Recording"}
@@ -153,7 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: colours.black,
-    fontFamily: "Helvetica Neue",
   },
   convo: {
     width: "100%",

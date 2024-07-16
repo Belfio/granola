@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#18181B",
-    fontFamily: "Helvetica Neue",
   },
   event: {
     display: "flex",

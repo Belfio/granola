@@ -9,8 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.614.0",
     "@expo/metro-runtime": "~3.2.1",
     "@react-navigation/drawer": "^6.6.15",
+    "aws-sdk": "^2.1659.0",
     "expo": "~51.0.14",
     "expo-av": "~14.0.5",
     "expo-constants": "~16.0.2",
@@ -22,6 +24,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.2",
+    "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-permissions": "^4.1.5",
     "react-native-reanimated": "~3.10.1",
