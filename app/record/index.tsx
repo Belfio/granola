@@ -6,6 +6,8 @@ import Separator from "@/components/Separator";
 import colours from "@/constants/colours";
 import useAudioRecord from "@/hooks/useRecording";
 import useUpload from "@/hooks/useUpload";
+import { useEffect } from "react";
+import useSpeachToText from "@/hooks/useSpeachToText";
 
 const convo = [
   {
@@ -107,6 +109,11 @@ export default function App() {
   //     stopRecording();
   //   };
   // }, []);
+
+  useEffect(() => {
+    if (!audioUri) return;
+    useSpeachToText(audioUri);
+  }, [audioUri]);
 
   const handleClick = () => {
     console.log("clicked");

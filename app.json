@@ -38,7 +38,8 @@
         {
           "iosPermissions": ["Camera", "SpeechRecognition"]
         }
-      ]
+      ],
+      ["@config-plugins/react-native-webrtc"]
     ]
   }
 }
