@@ -4,7 +4,7 @@ import { RealtimeTranscriber } from "assemblyai/streaming";
 import { mediaDevices } from "react-native-webrtc";
 import * as RecordRTC from "recordrtc";
 
-function App() {
+export default function useRTSTT() {
   /** @type {React.MutableRefObject<RealtimeTranscriber>} */
   const realtimeTranscriber = useRef(null);
   /** @type {React.MutableRefObject<RecordRTC>} */
@@ -31,7 +31,9 @@ function App() {
       sampleRate: 16_000,
     });
     if (!realtimeTranscriber.current) return;
+
     const texts = {};
+
     realtimeTranscriber.current.on("transcript", (transcript) => {
       let msg = "";
       texts[transcript.audio_start] = transcript.text;
@@ -95,7 +97,10 @@ function App() {
     recorder.current = null;
   };
 
-  return;
+  return {
+    startTranscription,
+    endTranscription,
+    isRecording,
+    transcript,
+  };
 }
-
-export default App;

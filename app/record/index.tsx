@@ -8,6 +8,7 @@ import useAudioRecord from "@/hooks/useRecording";
 import useUpload from "@/hooks/useUpload";
 import { useEffect } from "react";
 import useSpeachToText from "@/hooks/useSpeachToText";
+import useRTSTT from "@/hooks/useRTSTT";
 
 const convo = [
   {
@@ -102,6 +103,10 @@ export default function App() {
     setAudioName,
     audioUri,
   } = useAudioRecord();
+
+  const { startTranscription, endTranscription, isRecording, transcript } =
+    useRTSTT();
+
   const { uploadAudioToS3 } = useUpload();
   // useEffect(() => {
   //   startRecording();
@@ -125,12 +130,12 @@ export default function App() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Transcript</Text>
           {/* <Text style={styles.title}>{audioName}</Text> */}
-          <Text style={styles.title}>{audioUri}</Text>
+          <Text style={styles.title}>{transcript}</Text>
 
           <Separator />
           <Button
             title={recording ? "Stop Recording" : "Start Recording"}
-            onPress={recording ? stopRecording : startRecording}
+            onPress={recording ? endTranscription : startTranscription}
           />
           <Button title={"Suona"} onPress={playSound} />
           <View style={styles.convo}>
