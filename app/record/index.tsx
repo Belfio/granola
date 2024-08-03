@@ -6,9 +6,9 @@ import Separator from "@/components/Separator";
 import colours from "@/constants/colours";
 import useAudioRecord from "@/hooks/useRecording";
 import useUpload from "@/hooks/useUpload";
-import { useEffect } from "react";
-import useSpeachToText from "@/hooks/useSpeachToText";
-import useRTSTT from "@/hooks/useRTSTT";
+
+import { useEffect, useRef } from "react";
+import useAssembly from "@/hooks/useAssembly";
 
 const convo = [
   {
@@ -104,40 +104,30 @@ export default function App() {
     audioUri,
   } = useAudioRecord();
 
-  const { startTranscription, endTranscription, isRecording, transcript } =
-    useRTSTT();
-
-  const { uploadAudioToS3 } = useUpload();
-  // useEffect(() => {
-  //   startRecording();
-  //   return () => {
-  //     stopRecording();
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    if (!audioUri) return;
-    useSpeachToText(audioUri);
-  }, [audioUri]);
-
   const handleClick = () => {
     console.log("clicked");
+  };
+
+  const start = () => {
+    console.log("start");
+    startRecording(true);
   };
 
   return (
     <>
       <View style={styles.body}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.title}>Transcript</Text>
+          <Text style={styles.tiny}>Transcript</Text>
           {/* <Text style={styles.title}>{audioName}</Text> */}
-          <Text style={styles.title}>{transcript}</Text>
+          <Text style={styles.tiny}>{audioUri}</Text>
 
           <Separator />
           <Button
             title={recording ? "Stop Recording" : "Start Recording"}
-            onPress={recording ? endTranscription : startTranscription}
+            onPress={recording ? stopRecording : start}
           />
           <Button title={"Suona"} onPress={playSound} />
+
           <View style={styles.convo}>
             {convo.map((item) => (
               <TextBubble text={item.text} key={item.id} />
@@ -174,6 +164,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    color: colours.black,
+  },
+  tiny: {
+    fontSize: 8,
+    fontWeight: "regular",
     color: colours.black,
   },
   convo: {
