@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.614.0",
+    "@aws-sdk/client-s3": "^3.623.0",
     "@config-plugins/react-native-webrtc": "^9.0.0",
     "@expo/metro-runtime": "~3.2.1",
     "@react-navigation/drawer": "^6.6.15",
