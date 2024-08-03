@@ -1,6 +1,5 @@
 import { Audio } from "expo-av";
-import { useEffect, useState } from "react";
-import { Platform } from "react-native";
+import { useEffect, useRef, useState } from "react";
 import useUpload from "./useUpload";
 
 const config = { CLOUD_FUNCTION_URL: "CLOUD_FUNCTION_URL" };
@@ -11,6 +10,8 @@ export default function useAudioRecord() {
   const [sound, setSound] = useState<Audio.Sound | null>();
   const [audioUri, setAudioUri] = useState<string | null>(null);
   const [audioName, setAudioName] = useState<string>("untitled");
+  const recordingInterval = useRef<NodeJS.Timeout | null>(null);
+  const [counter, setCounter] = useState<number>(0);
   const { uploadAudioToS3 } = useUpload();
   useEffect(() => {
     return sound
@@ -21,7 +22,7 @@ export default function useAudioRecord() {
       : undefined;
   }, [sound]);
 
-  async function startRecording() {
+  async function startRecording(isTranslating: boolean = false) {
     try {
       if (permissionResponse?.status !== "granted") {
         console.log("Requesting permission..");
@@ -44,6 +45,23 @@ export default function useAudioRecord() {
       setAudioUri(uri);
       console.log("Recording started");
       console.log("Recording uri", uri);
+      if (isTranslating) {
+        recordingInterval.current = setInterval(async () => {
+          if (recording) {
+            await recording.stopAndUnloadAsync();
+            console.log("Recording stopped and stored");
+            // Create a Blob from the local file URI and send it to the WebSocket
+            if (uri) uploadAudioToS3(uri, "oneSec" + counter);
+            setCounter(counter + 1);
+            // Restart recording
+            const { recording: newRecording } =
+              await Audio.Recording.createAsync(
+                Audio.RecordingOptionsPresets.HighQuality
+              );
+            setRecording(newRecording);
+          }
+        }, 1000);
+      }
     } catch (err) {
       console.error("Failed to start recording", err);
     }

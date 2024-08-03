@@ -2,10 +2,10 @@ import { Audio } from "expo-av";
 import { useState } from "react";
 import { S3 } from "aws-sdk";
 import { Error } from "aws-sdk/clients/s3";
-const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
-const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
-const REGION = process.env.REGION;
-const BUCKET_NAME = process.env.BUCKET_NAME;
+const ACCESS_KEY_ID = process.env.EXPO_PUBLIC_ACCESS_KEY_ID;
+const SECRET_ACCESS_KEY = process.env.EXPO_PUBLIC_SECRET_ACCESS_KEY;
+const REGION = process.env.EXPO_PUBLIC_REGION;
+const BUCKET_NAME = process.env.EXPO_PUBLIC_BUCKET_NAME;
 
 // Initialize AWS S3
 const s3 = new S3({
@@ -23,6 +23,7 @@ export default function useUpload() {
     region: REGION,
   });
   const uploadAudioToS3 = async (audioUri: string, audioName: string) => {
+    console.log("Uploading audio to S3..");
     if (audioUri) {
       const response = await fetch(audioUri);
       const blob = await response.blob();
