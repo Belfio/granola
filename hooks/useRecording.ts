@@ -11,7 +11,7 @@ export default function useAudioRecord() {
   const [audioUri, setAudioUri] = useState<string | null>(null);
   const [audioName, setAudioName] = useState<string>("untitled");
   const recordingInterval = useRef<NodeJS.Timeout | null>(null);
-  const [counter, setCounter] = useState<number>(0);
+  const counterRef = useRef(0);
   const { uploadAudioToS3 } = useUpload();
   useEffect(() => {
     return sound
@@ -51,8 +51,9 @@ export default function useAudioRecord() {
             await recording.stopAndUnloadAsync();
             console.log("Recording stopped and stored");
             // Create a Blob from the local file URI and send it to the WebSocket
-            if (uri) uploadAudioToS3(uri, "oneSec" + counter);
-            setCounter(counter + 1);
+            const uri = recording.getURI();
+            if (uri) uploadAudioToS3(uri, "oneSec" + counterRef.current);
+            counterRef.current++;
             // Restart recording
             const { recording: newRecording } =
               await Audio.Recording.createAsync(
