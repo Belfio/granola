@@ -22,7 +22,18 @@ export default function useAudioRecord() {
       : undefined;
   }, [sound]);
 
-  async function startRecording(isTranslating: boolean = false) {
+  useEffect(() => {
+    if (recording) {
+      startLoop();
+    }
+    return () => {
+      if (recordingInterval.current) {
+        clearInterval(recordingInterval.current);
+      }
+    };
+  }, [recording]);
+
+  async function startRecording() {
     try {
       if (permissionResponse?.status !== "granted") {
         console.log("Requesting permission..");
@@ -45,27 +56,25 @@ export default function useAudioRecord() {
       setAudioUri(uri);
       console.log("Recording started");
       console.log("Recording uri", uri);
-      if (isTranslating) {
-        recordingInterval.current = setInterval(async () => {
-          if (recording) {
-            await recording.stopAndUnloadAsync();
-            console.log("Recording stopped and stored");
-            // Create a Blob from the local file URI and send it to the WebSocket
-            const uri = recording.getURI();
-            if (uri) uploadAudioToS3(uri, "oneSec" + counterRef.current);
-            counterRef.current++;
-            // Restart recording
-            const { recording: newRecording } =
-              await Audio.Recording.createAsync(
-                Audio.RecordingOptionsPresets.HighQuality
-              );
-            setRecording(newRecording);
-          }
-        }, 1000);
-      }
     } catch (err) {
       console.error("Failed to start recording", err);
     }
+  }
+
+  async function startLoop() {
+    recordingInterval.current = setInterval(async () => {
+      if (recording) {
+        try {
+          await stopRecording("oneSec" + counterRef.current);
+          console.log("Recording stopped and stored");
+        } catch (error) {
+          console.error("Error stopping recording:", error);
+          return;
+        }
+        await startRecording();
+        counterRef.current++;
+      }
+    }, 1000);
   }
 
   async function playSound() {
@@ -75,7 +84,7 @@ export default function useAudioRecord() {
     await sound.playAsync();
   }
 
-  async function stopRecording() {
+  async function stopRecording(fileName = "prova") {
     console.log("Stopping recording..");
     if (!recording) return;
     setRecording(null);
@@ -84,7 +93,7 @@ export default function useAudioRecord() {
       allowsRecordingIOS: false,
     });
     const uri = recording.getURI();
-    if (uri) uploadAudioToS3(uri, "prova");
+    if (uri) uploadAudioToS3(uri, fileName);
     console.log("Recording stopped and stored at", uri);
     if (!uri) return;
     setAudioUri(uri);
