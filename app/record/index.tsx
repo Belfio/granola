@@ -4,8 +4,7 @@ import ButtonRecord from "@/components/ButtonRecord";
 import TextBubble from "@/components/TextBubble";
 import Separator from "@/components/Separator";
 import colours from "@/constants/colours";
-import useAudioRecord from "@/hooks/useRecording";
-import useUpload from "@/hooks/useUpload";
+import useAudioRecord from "@/hooks/useAudioRecord";
 
 import { useEffect, useRef } from "react";
 import useAssembly from "@/hooks/useAssembly";
@@ -108,11 +107,6 @@ export default function App() {
     console.log("clicked");
   };
 
-  const start = () => {
-    console.log("start");
-    startRecording(true);
-  };
-
   return (
     <>
       <View style={styles.body}>
@@ -124,7 +118,9 @@ export default function App() {
           <Separator />
           <Button
             title={recording ? "Stop Recording" : "Start Recording"}
-            onPress={recording ? stopRecording : start}
+            onPress={
+              recording ? () => stopRecording("single") : () => startRecording()
+            }
           />
           <Button title={"Suona"} onPress={playSound} />
 

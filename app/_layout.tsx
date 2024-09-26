@@ -6,7 +6,7 @@ export default function HomeLayout() {
   return (
     <View style={styles.container}>
       <Slot />
-      <Footer />
+      {/* <Footer /> */}
     </View>
   );
 }

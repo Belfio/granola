@@ -6,6 +6,7 @@ const config = { CLOUD_FUNCTION_URL: "CLOUD_FUNCTION_URL" };
 
 export default function useAudioRecord() {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
+  const [isLoop, setIsLoop] = useState(false);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [sound, setSound] = useState<Audio.Sound | null>();
   const [audioUri, setAudioUri] = useState<string | null>(null);
@@ -23,7 +24,7 @@ export default function useAudioRecord() {
   }, [sound]);
 
   useEffect(() => {
-    if (recording) {
+    if (recording && isLoop) {
       startLoop();
     }
     return () => {
@@ -31,8 +32,15 @@ export default function useAudioRecord() {
         clearInterval(recordingInterval.current);
       }
     };
-  }, [recording]);
+  }, [recording, isLoop]);
 
+  const startRealTimeRecording = () => {
+    if (recording) {
+      return;
+    }
+    setIsLoop(true);
+    startRecording();
+  };
   async function startRecording() {
     try {
       if (permissionResponse?.status !== "granted") {
@@ -93,7 +101,7 @@ export default function useAudioRecord() {
       allowsRecordingIOS: false,
     });
     const uri = recording.getURI();
-    if (uri) uploadAudioToS3(uri, fileName);
+    if (uri) uploadAudioToS3(uri, fileName, isLoop);
     console.log("Recording stopped and stored at", uri);
     if (!uri) return;
     setAudioUri(uri);
@@ -138,10 +146,12 @@ export default function useAudioRecord() {
 
   return {
     startRecording,
+    startRealTimeRecording,
     stopRecording,
     playSound,
     unloadSound,
     recording,
+    isLoop,
     audioName,
     setAudioName,
     audioUri,

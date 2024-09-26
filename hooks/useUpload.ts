@@ -22,13 +22,20 @@ export default function useUpload() {
     secretAccessKey: SECRET_ACCESS_KEY,
     region: REGION,
   });
-  const uploadAudioToS3 = async (audioUri: string, audioName: string) => {
+  const uploadAudioToS3 = async (
+    audioUri: string,
+    audioName: string,
+    isLoop: boolean
+  ) => {
     console.log("Uploading audio to S3..");
     if (audioUri) {
       const response = await fetch(audioUri);
       const blob = await response.blob();
-      const key = `uploads/${audioName}-${Date.now()}.m4a`;
+      const key = `uploads/${
+        isLoop ? "realtime" : "non-realtime"
+      }/${audioName}-${Date.now()}.m4a`;
 
+      if (!BUCKET_NAME) throw new Error("BUCKET_NAME is not set");
       const params = {
         Bucket: BUCKET_NAME,
         Key: key,
